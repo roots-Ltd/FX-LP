@@ -13,478 +13,552 @@
     <style>
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            background-color: #fff9eb; /* 薄いシャンパンゴールドに変更 */
             color: #1e293b; /* Slate 800 - 文字色 */
         }
-        .text-gold {
-            color: #f59e0b; /* Amber 500 */
+        .text-gold { color: #f59e0b; }
+        .bg-gold { background-color: #fbbf24; }
+        .bg-gold-gradient { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%); }
+        .border-gold { border-color: #fbbf24; }
+        
+        /* スクロールバー非表示（スワイプUI用） */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 次へボタンのアニメーション */
+        @keyframes bounce-x {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
         }
-        .bg-gold {
-            background-color: #fbbf24;
-        }
-        .bg-gold-gradient {
-            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%);
-        }
-        .border-gold {
-            border-color: #fbbf24;
-        }
+        .animate-bounce-x { animation: bounce-x 1.5s infinite; }
     </style>
 </head>
-<body class="antialiased relative">
+<body class="antialiased relative bg-[#fff9eb]">
 
-    <!-- 全体の背景装飾（うっすらとしたゴールドの光） -->
+    <!-- 全体の背景装飾（固定・共通） -->
     <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="absolute top-0 left-0 w-2/3 h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-300/30 via-transparent to-transparent"></div>
-        <div class="absolute bottom-0 right-0 w-2/3 h-full bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-amber-300/20 via-transparent to-transparent"></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-yellow-300/30 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-amber-300/20 via-transparent to-transparent"></div>
     </div>
 
-    <!-- 1. ファーストビュー -->
-    <header class="relative bg-transparent overflow-hidden border-b-4 border-gold z-10">
-        <!-- 背景装飾（金塊の画像を明るく表示） -->
-        <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611605698335-8b1569810432?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
-            <!-- 白・ゴールド系の半透明フィルターを重ねる -->
-            <div class="absolute inset-0 bg-[#fff9eb]/85"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#fff9eb] via-white/30 to-transparent"></div>
-        </div>
-        
-        <div class="relative z-10 max-w-4xl mx-auto px-4 py-20 sm:py-24 text-center">
-            <div class="inline-block bg-gold text-gray-900 font-bold px-4 sm:px-6 py-1.5 rounded-full text-sm sm:text-base mb-6 shadow-lg shadow-yellow-500/30 border border-yellow-400">
-                いつまで独学で資金を溶かし続けますか？
-            </div>
-            
-            <h1 class="text-3xl sm:text-5xl font-black leading-tight mb-6 text-gray-900">
-                <span class="text-amber-500 block mb-2">「誰でも最低1日1万円」</span>を自力で、堅実に
-            </h1>
-            <p class="text-xl sm:text-2xl font-bold mb-8 text-gray-800">
-                15年の億トレ思考とスキルを、<br class="sm:hidden">あなたの一生モノの技術へ落とし込め
-            </p>
-            
-            <div class="bg-white/90 p-6 rounded-lg border border-gold/40 max-w-2xl mx-auto backdrop-blur-md shadow-[0_10px_30px_rgba(245,158,11,0.15)]">
-                <p class="text-lg sm:text-xl text-gray-700 leading-relaxed font-bold">
-                    テクニカル × ファンダメンタルズの極致<br>
-                    <span class="text-amber-500 font-black text-xl block mt-2 mb-1">1日1万円を稼ぎだす</span>
-                    GOLD専用・裁量トレーダーグループ<br>
-                    <span class="text-2xl sm:text-3xl font-black text-gray-900 mt-3 block tracking-wide">『ゴールデンボンバーEX』</span>
-                </p>
-            </div>
-        </div>
-    </header>
+    <!-- スマホ時は枠制限あり、PC時は全画面のラッパー -->
+    <div class="w-full h-[100dvh] max-w-[430px] relative overflow-hidden bg-[#fff9eb] mx-auto sm:max-w-none sm:h-auto sm:overflow-visible sm:bg-transparent">
 
-    <!-- 悩み・共感セクション -->
-    <section class="py-20 bg-transparent relative z-10">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-2xl sm:text-4xl font-black text-red-600 mb-12 leading-tight drop-shadow-sm">
-                いつまでFXで<br>
-                負け続けるのですか？
-            </h2>
-            
-            <div class="bg-white p-8 sm:p-12 rounded-3xl border-2 border-red-100 shadow-[0_15px_40px_rgba(239,68,68,0.1)] max-w-3xl mx-auto text-left">
-                <ul class="space-y-6 sm:space-y-8 text-xl sm:text-3xl font-black text-gray-800">
-                    <li class="flex items-start">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-red-500 mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        <span>何年やってもFXで勝てない</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-red-500 mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        <span>どの情報が正しいのかわからない</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-red-500 mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        <span class="leading-snug">何をしたら勝てるかわからなくなってきている</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-red-500 mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        <span>何回も同じ失敗をしてしまう</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-8 h-8 sm:w-10 sm:h-10 text-red-500 mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        <span>ギャンブルトレードになってしまう</span>
-                    </li>
-                </ul>
-                
-                <p class="mt-12 text-center text-gray-500 font-bold text-lg sm:text-xl border-t border-gray-200 pt-8">
-                    ※600人以上の方を教える中で<br class="sm:hidden">このようなお声をたくさんいただきました。
-                </p>
-            </div>
-        </div>
-    </section>
+        <!-- スクロールコンテナ（スマホ：横スワイプ / PC：縦積み） -->
+        <main class="relative w-full h-full flex overflow-x-auto snap-x snap-mandatory no-scrollbar z-10 scroll-smooth sm:block sm:overflow-visible sm:h-auto sm:snap-none">
 
-    <!-- なぜ、この場所を作ったのか？（立ち上げの想い） -->
-    <section class="py-16 bg-white border-y border-amber-200 relative z-10">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-2xl sm:text-3xl font-black text-center mb-10 text-gray-900">
-                なぜ、私はこの場所を作ったのか？
-            </h2>
-            
-            <div class="bg-gray-50 p-6 sm:p-10 rounded-2xl border border-gray-200 shadow-md">
-                <p class="text-xl sm:text-2xl font-bold text-amber-600 mb-6 text-center sm:text-left">
-                    「あまりにも、情報に踊らされて負ける人が多すぎる」
-                </p>
-                
-                <div class="space-y-6 text-gray-700 text-base sm:text-lg leading-relaxed">
-                    <p>
-                        情報が錯綜し、何が正解かわからないまま、真面目なトレーダーの大切な資金が溶けていく――。<br>
-                        そんな現状を、私は黙って見ていられませんでした。
-                    </p>
-                    
-                    <div class="bg-white p-5 rounded-lg border-l-4 border-amber-500 shadow-sm my-8">
-                        <p class="font-bold text-gray-900 text-lg">
-                            「本物の勝ち方を知る人間が、直接教える。それが最短で勝てる唯一の道である。」
-                        </p>
-                    </div>
-
-                    <p>
-                        これまで600名以上に指導してきた経験から、私は確信しています。<br>
-                        特に「ゴールド」という市場には、他の銘柄にはない圧倒的な「夢」があります。
-                    </p>
-
-                    <p>
-                        ゴールドへの高い需要を肌で感じてきたからこそ、私は決断しました。<br>
-                        <strong class="text-gray-900 border-b-2 border-amber-300 pb-0.5">「本当に勝てる本物の情報だけを共有し、全員で利益を掴み取るための場所」</strong>を自らの手で創り上げることを。
-                    </p>
+            <!-- ====================================
+                 Page 1: ファーストビュー
+            ==================================== -->
+            <section id="page-1" class="flex-none w-full h-full snap-start relative bg-transparent sm:block sm:h-auto sm:border-b-4 sm:border-gold">
+                <!-- 金塊の背景（1ページ目専用） -->
+                <div class="absolute inset-0 z-0 pointer-events-none">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611605698335-8b1569810432?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
+                    <div class="absolute inset-0 bg-[#fff9eb]/85"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#fff9eb] via-white/30 to-transparent"></div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- 2. 共感と警鐘 -->
-    <section class="py-16 bg-transparent relative z-10">
-        <div class="max-w-3xl mx-auto px-4 text-center">
-            <h2 class="text-2xl sm:text-3xl font-bold text-red-600 mb-8 leading-relaxed">
-                「手法やツールを手に入れれば勝てる」<br>という幻想は捨ててください。
-            </h2>
-            <div class="space-y-8 text-left sm:text-center text-gray-700 text-lg leading-relaxed">
-                <p>
-                    FXは手法やツールに頼っただけでは勝てません。<br>
-                    相場は生き物であり、状況は常に変化し続けているからです。
-                </p>
-                
-                <!-- スマホでも見やすく情報を整理したボックス -->
-                <div class="bg-white p-6 sm:p-8 rounded-xl border border-amber-200 shadow-md inline-block text-left w-full sm:w-auto">
-                    <p class="mb-5 text-gray-900 font-bold">本当に必要なのは、</p>
-                    <div class="space-y-6">
-                        <div>
-                            <span class="block text-sm sm:text-base text-gray-500 mb-1">1.「どういう相場で使うか」を見極める</span>
-                            <strong class="text-gray-900 text-xl sm:text-2xl border-l-4 border-gold pl-3 block">チャート分析の環境認識力</strong>
+                <!-- スマホ用スクロールエリア解除 -->
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-4 py-16 text-center flex flex-col items-center justify-center min-h-full sm:block sm:min-h-0 sm:py-24 max-w-4xl mx-auto">
+                        <div class="inline-block bg-gold text-gray-900 font-bold px-5 sm:px-6 py-1.5 rounded-full text-xs sm:text-base mb-6 shadow-lg shadow-yellow-500/30 border border-yellow-400">
+                            いつまで独学で資金を溶かし続けますか？
                         </div>
-                        <div>
-                            <span class="block text-sm sm:text-base text-gray-500 mb-1">2. 実際の場面でどう応用するかという</span>
-                            <strong class="text-gray-900 text-xl sm:text-2xl border-l-4 border-gold pl-3 block">勝ち続けるトレーダーの知見</strong>
+                        
+                        <h1 class="text-3xl sm:text-5xl font-black leading-tight mb-6 text-gray-900">
+                            <span class="text-amber-500 block mb-2">「誰でも最低1日1万円」</span>を自力で、堅実に
+                        </h1>
+                        <p class="text-lg sm:text-2xl font-bold mb-8 text-gray-800">
+                            15年の億トレ思考とスキルを、<br class="sm:hidden">あなたの一生モノの技術へ落とし込め
+                        </p>
+                        
+                        <div class="bg-white/90 p-5 sm:p-6 rounded-lg border border-gold/40 w-full max-w-2xl mx-auto backdrop-blur-md shadow-[0_10px_30px_rgba(245,158,11,0.15)]">
+                            <p class="text-base sm:text-xl text-gray-700 leading-relaxed font-bold">
+                                テクニカル × ファンダメンタルズの極致<br>
+                                <span class="text-amber-500 font-black text-xl sm:text-2xl block mt-2 mb-1">1日1万円を稼ぎだす</span>
+                                GOLD専用・裁量トレーダーグループ<br>
+                                <span class="text-2xl sm:text-3xl font-black text-gray-900 mt-3 block tracking-wide">『ゴールデンボンバーEX』</span>
+                            </p>
                         </div>
                     </div>
                 </div>
+                <!-- スマホ時のみ表示する次へボタン -->
+                <a href="#page-2" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    スワイプして次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
 
-                <p>
-                    だからこそ、常にリアルタイムで精度が高い<br>
-                    <strong class="text-amber-600 text-xl sm:text-2xl inline-block mt-2 mb-1">「チャート分析」と「ファンダメンタルズ分析」</strong><br>
-                    に合わせたトレード環境が必要不可欠なのです。
-                </p>
-            </div>
-        </div>
-    </section>
+            <!-- ====================================
+                 Page 2: 悩み・共感
+            ==================================== -->
+            <section id="page-2" class="flex-none w-full h-full snap-start relative bg-transparent sm:block sm:h-auto sm:py-20">
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 flex items-center sm:block sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-4 py-10 sm:py-0 text-center w-full max-w-4xl mx-auto">
+                        <h2 class="text-2xl sm:text-4xl font-black text-red-600 mb-8 sm:mb-12 leading-tight drop-shadow-sm">
+                            いつまでFXで<br>
+                            負け続けるのですか？
+                        </h2>
+                        
+                        <div class="bg-white p-6 sm:p-12 rounded-3xl border-2 border-red-100 shadow-[0_15px_40px_rgba(239,68,68,0.1)] text-left max-w-3xl mx-auto">
+                            <ul class="space-y-5 sm:space-y-8 text-lg sm:text-3xl font-black text-gray-800">
+                                <li class="flex items-start">
+                                    <svg class="w-6 h-6 sm:w-10 sm:h-10 text-red-500 mr-3 sm:mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <span>何年やってもFXで勝てない</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-6 h-6 sm:w-10 sm:h-10 text-red-500 mr-3 sm:mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <span>どの情報が正しいのかわからない</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-6 h-6 sm:w-10 sm:h-10 text-red-500 mr-3 sm:mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <span class="leading-snug">何をしたら勝てるかわからなくなってきている</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-6 h-6 sm:w-10 sm:h-10 text-red-500 mr-3 sm:mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <span>何回も同じ失敗をしてしまう</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <svg class="w-6 h-6 sm:w-10 sm:h-10 text-red-500 mr-3 sm:mr-4 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <span>ギャンブルトレードになってしまう</span>
+                                </li>
+                            </ul>
+                            <p class="mt-8 sm:mt-12 text-center text-gray-500 font-bold text-sm sm:text-xl border-t border-gray-200 pt-5 sm:pt-8">
+                                ※600人以上の方を教える中で<br class="sm:hidden">このようなお声をたくさんいただきました。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#page-3" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
 
-    <!-- 中間CTAバナー（もともとプロフィールがあった位置） -->
-    <section class="py-16 bg-transparent relative z-10 border-t border-amber-200">
-        <div class="max-w-4xl mx-auto px-4 text-center">
+            <!-- ====================================
+                 Page 3: なぜ、作ったのか？
+            ==================================== -->
+            <section id="page-3" class="flex-none w-full h-full snap-start relative bg-white border-x border-amber-200 shadow-[0_0_20px_rgba(0,0,0,0.05)] sm:block sm:h-auto sm:border-x-0 sm:border-y sm:shadow-none sm:py-16">
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-5 py-12 sm:py-0 max-w-4xl mx-auto">
+                        <h2 class="text-2xl sm:text-3xl font-black text-center mb-8 sm:mb-10 text-gray-900">
+                            なぜ、私は<br class="sm:hidden">この場所を作ったのか？
+                        </h2>
+                        
+                        <div class="bg-gray-50 p-6 sm:p-10 rounded-2xl border border-gray-200 shadow-sm sm:shadow-md">
+                            <p class="text-xl sm:text-2xl font-bold text-amber-600 mb-5 sm:mb-6 text-left sm:text-center leading-tight">
+                                「あまりにも、情報に踊らされて負ける人が多すぎる」
+                            </p>
+                            
+                            <div class="space-y-5 sm:space-y-6 text-gray-700 text-sm sm:text-lg leading-relaxed">
+                                <p>
+                                    情報が錯綜し、何が正解かわからないまま、真面目なトレーダーの大切な資金が溶けていく――。<br>
+                                    そんな現状を、私は黙って見ていられませんでした。
+                                </p>
+                                
+                                <div class="bg-white p-4 sm:p-5 rounded-lg border-l-4 border-amber-500 shadow-sm my-6 sm:my-8">
+                                    <p class="font-bold text-gray-900 text-base sm:text-lg leading-snug">
+                                        「本物の勝ち方を知る人間が、直接教える。それが最短で勝てる唯一の道である。」
+                                    </p>
+                                </div>
+
+                                <p>
+                                    これまで600名以上に指導してきた経験から、私は確信しています。<br>
+                                    特に「ゴールド」という市場には、他の銘柄にはない圧倒的な「夢」があります。
+                                </p>
+
+                                <p>
+                                    ゴールドへの高い需要を肌で感じてきたからこそ、私は決断しました。<br>
+                                    <strong class="text-gray-900 border-b-2 border-amber-300 pb-0.5">「本当に勝てる本物の情報だけを共有し、全員で利益を掴み取るための場所」</strong>を自らの手で創り上げることを。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#page-4" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
+
+            <!-- ====================================
+                 Page 4: 幻想は捨ててください
+            ==================================== -->
+            <section id="page-4" class="flex-none w-full h-full snap-start relative bg-transparent sm:block sm:h-auto sm:py-16">
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 flex items-center sm:block sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-5 py-10 sm:py-0 text-center w-full max-w-3xl mx-auto">
+                        <h2 class="text-xl sm:text-3xl font-bold text-red-600 mb-8 leading-relaxed">
+                            「手法やツールを手に入れれば勝てる」<br>という幻想は捨ててください。
+                        </h2>
+                        <div class="space-y-6 sm:space-y-8 text-left sm:text-center text-gray-700 text-base sm:text-lg leading-relaxed">
+                            <p class="text-center font-bold">
+                                FXは手法やツールに頼っただけでは勝てません。<br>相場は生き物であり、状況は常に変化し続けているからです。
+                            </p>
+                            
+                            <div class="bg-white p-6 sm:p-8 rounded-xl border border-amber-200 shadow-md sm:inline-block sm:w-auto text-left">
+                                <p class="mb-4 sm:mb-5 text-gray-900 font-black text-center sm:text-left">本当に必要なのは、</p>
+                                <div class="space-y-5 sm:space-y-6">
+                                    <div>
+                                        <span class="block text-xs sm:text-base text-gray-500 mb-1">1.「どういう相場で使うか」を見極める</span>
+                                        <strong class="text-gray-900 text-lg sm:text-2xl border-l-4 border-gold pl-3 block">チャート分析の環境認識力</strong>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs sm:text-base text-gray-500 mb-1">2. 実際の場面でどう応用するかという</span>
+                                        <strong class="text-gray-900 text-lg sm:text-2xl border-l-4 border-gold pl-3 block">勝ち続けるトレーダーの知見</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="text-center font-bold text-sm sm:text-xl">
+                                だからこそ、常にリアルタイムで精度が高い<br>
+                                <strong class="text-amber-600 text-lg sm:text-2xl inline-block mt-2 mb-1">「チャート分析」と「ファンダメンタルズ分析」</strong><br>
+                                に合わせたトレード環境が必要不可欠なのです。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- スマホの時はPage 5のバナー画面を飛ばしてPage 6へ -->
+                <a href="#page-6" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
+
+            <!-- ====================================
+                 Page 5: 中間CTA（PC表示時のみ）
+            ==================================== -->
+            <section id="page-5" class="hidden sm:block sm:h-auto sm:bg-transparent sm:border-x-0 sm:border-t sm:border-amber-200 sm:py-16">
+                <div class="sm:overflow-visible sm:p-0 sm:h-auto relative z-10 flex flex-col items-center justify-center">
+                    <div class="max-w-4xl mx-auto px-4 text-center w-full">
+                        <!-- ★★★ リンク差し替え：申し込みページやLINEのURLを href="#" の # に入れ替えてください ★★★ -->
+                        <a href="https://lin.ee/iYcu3h5" class="inline-block w-auto text-center bg-gold-gradient text-white font-black text-2xl py-5 px-8 rounded-full shadow-[0_10px_30px_rgba(245,158,11,0.4)] hover:shadow-[0_15px_40px_rgba(245,158,11,0.6)] transform hover:-translate-y-1 transition-all duration-300">
+                            一生モノの技術を身につけ、1日1万円の扉を開く
+                            <span class="block text-base font-bold mt-2 opacity-90 bg-transparent py-0 mx-0">今すぐゴールデンボンバーEXに参加する</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================
+                 Page 6: Discord環境
+            ==================================== -->
+            <section id="page-6" class="flex-none w-full h-full snap-start relative bg-transparent sm:block sm:h-auto sm:border-b sm:border-amber-200 sm:py-12">
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 flex items-center sm:block sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-5 py-12 sm:py-0 text-center w-full max-w-4xl mx-auto">
+                        <h2 class="text-2xl sm:text-3xl font-black text-gray-900 mb-6 leading-tight">
+                            完全クローズドな<br class="sm:hidden"><span class="text-[#5865F2] text-3xl">Discord</span>専用コミュニティ
+                        </h2>
+                        <p class="text-gray-700 text-sm sm:text-lg mb-8 font-bold leading-relaxed">
+                            全世界で利用されるチャットアプリ「Discord」をベースに活動しています。<br class="hidden sm:block">
+                            用途ごとに細かく整理された専用チャンネルで、ノイズのない洗練された学習・実践環境を提供します。
+                        </p>
+                        <div class="bg-white p-2 rounded-xl border border-amber-200 shadow-md max-w-sm mx-auto">
+                            <!-- ★★★ 画像差し替え：Discordのチャンネル一覧画像 ★★★ -->
+                            <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.21.34.png" alt="Discordチャンネル一覧" class="w-full h-auto rounded-lg border border-amber-100">
+                        </div>
+                    </div>
+                </div>
+                <a href="#page-7" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
+
+            <!-- ====================================
+                 Page 7: トレードの流れ
+            ==================================== -->
+            <section id="page-7" class="flex-none w-full h-full snap-start relative bg-white border-x border-amber-200 sm:block sm:h-auto sm:bg-amber-100/40 sm:border-x-0 sm:border-y sm:py-16">
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-5 py-10 sm:py-0 max-w-4xl mx-auto">
+                        <h2 class="text-2xl sm:text-3xl font-black text-center mb-6 text-gray-900">
+                            グループでの<br class="sm:hidden"><span class="text-amber-500">トレードの流れ</span>
+                        </h2>
+                        <div class="text-center text-gray-700 text-sm sm:text-xl mb-8 sm:mb-12 leading-relaxed font-bold bg-amber-50 sm:bg-transparent p-4 sm:p-0 rounded-xl">
+                            <p>あれこれ悩む必要はありません。</p>
+                            <p>私のチャート分析という「正解」に、<br class="hidden sm:block">グループで身につける手法やツールを合わせる。</p>
+                            <p class="text-amber-600 mt-1 sm:mt-2">ただそれだけです。</p>
+                        </div>
+
+                        <div class="space-y-4 sm:space-y-6">
+                            <!-- Flow 1 -->
+                            <div class="bg-white p-5 sm:p-8 rounded-xl border border-amber-200 shadow-sm relative overflow-hidden flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
+                                <div class="text-amber-400 font-black text-4xl sm:text-5xl opacity-80 mb-2 sm:mb-0 shrink-0 leading-none">01</div>
+                                <div>
+                                    <h3 class="text-lg sm:text-2xl font-bold mb-2 sm:mb-3 text-gray-900 leading-tight">「方向性」さえ合えば、どこからでも利益になる</h3>
+                                    <p class="text-gray-600 sm:text-gray-700 text-sm sm:text-lg leading-relaxed">
+                                        極論、チャートの進む方向さえ間違っていなければ、どこから乗っても勝てます。<br>
+                                        私が編み出した<strong class="text-gray-900 border-b-2 border-amber-400 pb-0.5 mx-1">『勝てる手法とツール』</strong>を共有するので、あなたは自信を持って乗るだけです。
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Flow 2 -->
+                            <div class="bg-white p-5 sm:p-8 rounded-xl border border-amber-200 shadow-sm relative overflow-hidden flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
+                                <div class="text-amber-400 font-black text-4xl sm:text-5xl opacity-80 mb-2 sm:mb-0 shrink-0 leading-none">02</div>
+                                <div>
+                                    <h3 class="text-lg sm:text-2xl font-bold mb-2 sm:mb-3 text-gray-900 leading-tight">「負け幅」を極力最小にし、利益を爆発させる</h3>
+                                    <p class="text-gray-600 sm:text-gray-700 text-sm sm:text-lg leading-relaxed">
+                                        私の分析に基づき、期待値の高いポイントで徹底して細かくエントリーを積み重ねる技術が身につきます。<br>
+                                        そうすることで、損小利大の安全トレードの技術も磨かれていきます。
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Flow 3 -->
+                            <div class="bg-white p-5 sm:p-8 rounded-xl border border-amber-200 shadow-sm relative overflow-hidden flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
+                                <div class="text-amber-400 font-black text-4xl sm:text-5xl opacity-80 mb-2 sm:mb-0 shrink-0 leading-none">03</div>
+                                <div>
+                                    <h3 class="text-lg sm:text-2xl font-bold mb-2 sm:mb-3 text-gray-900 leading-tight">ゴールドなら「小ロット」が「爆益」に変わる</h3>
+                                    <p class="text-gray-600 sm:text-gray-700 text-sm sm:text-lg leading-relaxed">
+                                        無理なハイレバは不要。最小限のロットでも、相場の波を掴めば一晩で利益を突き抜けさせる事ができます。<br>
+                                        そして慣れてきてロットがあげれるようになってきた頃に爆益を目指していけます。
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Flow 4 -->
+                            <div class="bg-white p-5 sm:p-8 rounded-xl border border-amber-200 shadow-sm relative overflow-hidden flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
+                                <div class="text-amber-400 font-black text-4xl sm:text-5xl opacity-80 mb-2 sm:mb-0 shrink-0 leading-none">04</div>
+                                <div>
+                                    <h3 class="text-lg sm:text-2xl font-bold mb-2 sm:mb-3 text-gray-900 leading-tight">気がつけば「自分一人」で稼げるようになっている</h3>
+                                    <p class="text-gray-600 sm:text-gray-700 text-sm sm:text-lg leading-relaxed">
+                                        最初は配信通りに打つだけで構いません。<br>
+                                        しかし、徐々にグループを進めていく事で、確実に裁量技術が身につくようになっています。<br>
+                                        <strong class="text-gray-900 border-b-2 border-amber-400 pb-0.5 mx-1">「気づいたら自分でもどんどん利益を取れていた」</strong><br>
+                                        という自立までのスピード感が、このグループの最大の価値です。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- スクロール案内（スマホのみ） -->
+                <div class="sm:hidden absolute bottom-40 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce z-40 pointer-events-none text-amber-500 drop-shadow-md">
+                    <span class="text-[10px] font-bold mb-1 bg-white/90 px-3 py-1.5 rounded-full shadow-sm border border-amber-200">下にスクロール</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </div>
+
+                <a href="#page-8" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
+
+            <!-- ====================================
+                 Page 8: 勝つための6ステップ
+            ==================================== -->
+            <section id="page-8" class="flex-none w-full h-full snap-start relative bg-transparent sm:block sm:h-auto sm:border-b sm:border-amber-200 sm:py-16">
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-5 py-10 sm:py-0 max-w-4xl mx-auto">
+                        <h2 class="text-2xl sm:text-3xl font-black text-center mb-8 sm:mb-12 text-gray-900 leading-tight">
+                            『ゴールデンボンバーEX』が提供する<br>
+                            <span class="text-amber-500 text-3xl">勝つための6ステップ</span>
+                        </h2>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8">
+                            <!-- Step 1 -->
+                            <div class="bg-white p-5 sm:p-6 rounded-xl border border-amber-200 shadow-md sm:hover:shadow-lg transition-shadow flex flex-col h-full">
+                                <div class="text-amber-500 font-black text-lg sm:text-xl mb-1 sm:mb-2">STEP 1</div>
+                                <h3 class="text-base sm:text-xl font-bold mb-2 sm:mb-4 text-gray-900">【毎日更新】緻密なチャート分析</h3>
+                                <p class="text-gray-600 sm:text-gray-600 text-sm sm:text-base font-bold mb-3 sm:mb-4 sm:flex-grow order-last sm:order-none mt-2 sm:mt-0">テクニカルで相場の「本質」を紐解く。</p>
+                                <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full order-3 sm:order-none">
+                                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.00.24.png" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="bg-white p-5 sm:p-6 rounded-xl border border-amber-200 shadow-md sm:hover:shadow-lg transition-shadow flex flex-col h-full">
+                                <div class="text-amber-500 font-black text-lg sm:text-xl mb-1 sm:mb-2">STEP 2</div>
+                                <h3 class="text-base sm:text-xl font-bold mb-2 sm:mb-4 text-gray-900">【毎日更新】ファンダメンタルズ分析</h3>
+                                <p class="text-gray-600 sm:text-gray-600 text-sm sm:text-base font-bold mb-3 sm:mb-4 sm:flex-grow order-last sm:order-none mt-2 sm:mt-0">世界情勢や経済指標から相場の大きな流れを読み解く。</p>
+                                <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full order-3 sm:order-none">
+                                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.22.28.png" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="bg-white p-5 sm:p-6 rounded-xl border border-amber-200 shadow-md sm:hover:shadow-lg transition-shadow flex flex-col h-full">
+                                <div class="text-amber-500 font-black text-lg sm:text-xl mb-1 sm:mb-2">STEP 3</div>
+                                <h3 class="text-base sm:text-xl font-bold mb-2 sm:mb-4 text-gray-900">【武器】勝てる手法と活かし方</h3>
+                                <p class="text-gray-600 sm:text-gray-600 text-sm sm:text-base font-bold mb-3 sm:mb-4 sm:flex-grow order-last sm:order-none mt-2 sm:mt-0">根拠のあるポイントで、15年の知見を凝縮したロジックを叩き込む。</p>
+                                <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full order-3 sm:order-none">
+                                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.23.51.png" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="bg-white p-5 sm:p-6 rounded-xl border border-amber-200 shadow-md sm:hover:shadow-lg transition-shadow flex flex-col h-full">
+                                <div class="text-amber-500 font-black text-lg sm:text-xl mb-1 sm:mb-2">STEP 4</div>
+                                <h3 class="text-base sm:text-xl font-bold mb-2 sm:mb-4 text-gray-900">【武器】裁量補助ツールの活用</h3>
+                                <p class="text-gray-600 sm:text-gray-600 text-sm sm:text-base font-bold mb-3 sm:mb-4 sm:flex-grow order-last sm:order-none mt-2 sm:mt-0">専用ツールを活用し、視覚的に勝率の高いポイントを把握する。</p>
+                                <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full order-3 sm:order-none">
+                                    <img src="https://che-wada-fx.com/wp-content/uploads/2025/04/スクリーンショット-2025-05-16-12.36.32.png" alt="ツールスクショ" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <!-- Step 5 -->
+                            <div class="bg-white p-5 sm:p-6 rounded-xl border border-amber-200 shadow-md sm:hover:shadow-lg transition-shadow flex flex-col h-full">
+                                <div class="text-amber-500 font-black text-lg sm:text-xl mb-1 sm:mb-2">STEP 5</div>
+                                <h3 class="text-base sm:text-xl font-bold mb-2 sm:mb-4 text-gray-900">【知識】裁量で勝つための重要知識</h3>
+                                <p class="text-gray-600 sm:text-gray-600 text-sm sm:text-base font-bold mb-3 sm:mb-4 sm:flex-grow order-last sm:order-none mt-2 sm:mt-0">実践で使える裁量のテクニックや知識を伝授。</p>
+                                <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full order-3 sm:order-none">
+                                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.26.52.png" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <!-- Step 6 -->
+                            <div class="bg-white p-5 sm:p-6 rounded-xl border border-amber-200 shadow-md sm:hover:shadow-lg transition-shadow flex flex-col h-full">
+                                <div class="text-amber-500 font-black text-lg sm:text-xl mb-1 sm:mb-2">STEP 6</div>
+                                <h3 class="text-base sm:text-xl font-bold mb-2 sm:mb-4 text-gray-900">【答え合わせ】裁量エントリー配信</h3>
+                                <p class="text-gray-600 sm:text-gray-600 text-sm sm:text-base font-bold mb-3 sm:mb-4 sm:flex-grow order-last sm:order-none mt-2 sm:mt-0">私（おまけ）のリアルな入り方を公開。分析の答え合わせに活用。</p>
+                                <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full order-3 sm:order-none">
+                                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.29.26.png" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- スクロール案内（スマホのみ） -->
+                <div class="sm:hidden absolute bottom-40 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce z-40 pointer-events-none text-amber-500 drop-shadow-md">
+                    <span class="text-[10px] font-bold mb-1 bg-white/90 px-3 py-1.5 rounded-full shadow-sm border border-amber-200">下にスクロール</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </div>
+
+                <a href="#page-9" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
+
+            <!-- ====================================
+                 Page 9: 圧倒的な証拠
+            ==================================== -->
+            <section id="page-9" class="flex-none w-full h-full snap-start relative bg-white border-x border-amber-200 sm:block sm:h-auto sm:bg-amber-100/40 sm:border-x-0 sm:py-16">
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-4 py-10 sm:py-0 text-center max-w-4xl mx-auto">
+                        <h2 class="text-2xl sm:text-3xl font-black mb-3 sm:mb-4 text-gray-900">
+                            「今日、1万円を稼げました！」
+                        </h2>
+                        <p class="text-sm sm:text-xl text-amber-600 mb-8 sm:mb-12 font-bold">仲間の成功が、あなたの基準値を引き上げる。</p>
+
+                        <!-- 結果報告ギャラリー -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
+                            <div class="bg-gray-50 sm:bg-white p-1.5 sm:p-2 rounded-lg border border-amber-100 sm:border-amber-200 shadow-sm">
+                                <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.02.11.png" class="w-full h-auto rounded">
+                            </div>
+                            <div class="bg-gray-50 sm:bg-white p-1.5 sm:p-2 rounded-lg border border-amber-100 sm:border-amber-200 shadow-sm">
+                                <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.02.33.png" class="w-full h-auto rounded">
+                            </div>
+                            <div class="bg-gray-50 sm:bg-white p-1.5 sm:p-2 rounded-lg border border-amber-100 sm:border-amber-200 shadow-sm">
+                                <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.05.39.png" class="w-full h-auto rounded">
+                            </div>
+                            <div class="bg-gray-50 sm:bg-white p-1.5 sm:p-2 rounded-lg border border-amber-100 sm:border-amber-200 shadow-sm">
+                                <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.05.55.png" class="w-full h-auto rounded">
+                            </div>
+                            <div class="bg-gray-50 sm:bg-white p-1.5 sm:p-2 rounded-lg border border-amber-100 sm:border-amber-200 shadow-sm">
+                                <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.02.02.png" class="w-full h-auto rounded">
+                            </div>
+                            <div class="bg-gray-50 sm:bg-white p-1.5 sm:p-2 rounded-lg border border-amber-100 sm:border-amber-200 shadow-sm">
+                                <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.35.32.png" class="w-full h-auto rounded">
+                            </div>
+                        </div>
+                        
+                        <p class="text-sm sm:text-lg font-bold text-gray-900 bg-amber-50 sm:bg-white inline-block px-4 sm:px-6 py-3 rounded-xl sm:rounded-full border border-amber-200 sm:border-amber-300 shadow-sm sm:shadow-md">
+                            「初心者でも自力で分析して勝てた」<br class="sm:hidden">という声が続出しています。
+                        </p>
+                    </div>
+                </div>
+                <a href="#page-10" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
+
+            <!-- ====================================
+                 Page 10: クロージング
+            ==================================== -->
+            <section id="page-10" class="flex-none w-full h-full snap-start relative bg-transparent sm:block sm:h-auto sm:border-t-4 sm:border-gold sm:py-20 text-center">
+                <div class="w-full h-full overflow-y-auto pb-36 relative z-10 flex flex-col justify-center sm:block sm:overflow-visible sm:pb-0 sm:h-auto">
+                    <div class="px-5 py-10 sm:py-0 text-center max-w-2xl mx-auto">
+                        <div class="mb-8 bg-white sm:bg-transparent p-6 sm:p-0 rounded-3xl sm:rounded-none border sm:border-none border-amber-200 shadow-lg sm:shadow-none">
+                            <span class="text-gray-500 text-sm sm:text-lg font-bold">参加費用</span>
+                            <div class="text-4xl sm:text-6xl font-black text-gray-900 mt-2 mb-2 sm:mb-4">
+                                月額 <span class="text-amber-500">11,000</span><span class="text-xl sm:text-2xl">円</span>
+                            </div>
+                            <p class="text-sm sm:text-xl text-gray-600 font-bold mb-6 sm:mb-8">1日あたり わずか約360円</p>
+
+                            <div class="sm:bg-white sm:p-8 sm:rounded-xl sm:border sm:border-amber-200 sm:shadow-lg sm:text-left sm:mb-10">
+                                <ul class="space-y-3 sm:space-y-4 text-gray-800 text-sm sm:text-lg font-bold text-left mb-6 sm:mb-0">
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 sm:w-6 h-6 text-amber-500 mr-2 sm:mr-3 flex-shrink-0 mt-0.5 sm:mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        15年の億の思考と最新分析
+                                    </li>
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-amber-500 mr-2 sm:mr-3 flex-shrink-0 mt-0.5 sm:mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        結果を出し続ける仲間の環境
+                                    </li>
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-amber-500 mr-2 sm:mr-3 flex-shrink-0 mt-0.5 sm:mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        入会金なし、縛りなしの明朗システム
+                                    </li>
+                                </ul>
+                                <p class="text-xs sm:text-base text-gray-500 sm:text-gray-600 sm:text-center font-bold border-t border-gray-100 sm:border-amber-200 pt-4 sm:pt-6 sm:mt-6">
+                                    あなたが身につける「裁量スキル」は、<br>相場がある限り一生お金を生み出す技術になります。
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CTAボタン (PC表示時のみ) -->
+                        <a href="https://lin.ee/iYcu3h5" class="hidden sm:inline-block w-full sm:w-auto bg-gold-gradient text-white font-black text-xl sm:text-2xl py-6 sm:py-5 px-4 sm:px-8 rounded-3xl sm:rounded-full shadow-[0_10px_30px_rgba(245,158,11,0.4)] hover:shadow-[0_15px_40px_rgba(245,158,11,0.6)] transform hover:-translate-y-1 transition-all duration-300">
+                            一生モノの技術を身につけ、<br class="sm:hidden">1日1万円の扉を開く
+                            <span class="block text-sm font-bold mt-4 sm:mt-2 opacity-90 bg-white/20 sm:bg-transparent py-2 sm:py-0 rounded-full mx-2 sm:mx-0">今すぐゴールデンボンバーEXに参加する</span>
+                        </a>
+                    </div>
+                </div>
+                <a href="#page-11" class="sm:hidden absolute bottom-28 right-4 flex items-center gap-1 text-amber-600 font-bold text-sm bg-white/95 px-4 py-2.5 rounded-full shadow-[0_4px_15px_rgba(245,158,11,0.3)] border border-amber-200 animate-bounce-x z-50">
+                    次へ <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </section>
+
+            <!-- ====================================
+                 Page 11: プロフィール ＆ フッター
+            ==================================== -->
+            <section id="page-11" class="flex-none w-full h-full snap-start relative bg-white border-l border-amber-200 sm:block sm:h-auto sm:bg-amber-100/40 sm:border-l-0 sm:border-t sm:py-0">
+                <div class="w-full h-full overflow-y-auto pb-24 relative z-10 flex flex-col justify-between sm:block sm:overflow-visible sm:h-auto sm:pb-0">
+                    <div class="px-5 py-10 sm:py-16 max-w-4xl mx-auto w-full">
+                        <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 bg-white p-6 sm:p-8 rounded-3xl sm:rounded-2xl border border-amber-100 sm:border-gold/30 shadow-[0_5px_20px_rgba(245,158,11,0.1)] sm:shadow-[0_10px_30px_rgba(245,158,11,0.05)]">
+                            <!-- プロフィール画像 -->
+                            <div class="w-40 h-40 sm:w-56 sm:h-56 flex-shrink-0 rounded-full overflow-hidden border-4 border-gold shadow-[0_0_15px_rgba(251,191,36,0.2)] bg-amber-50">
+                                <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/YASUNARI候補1.jpg" alt="プロフィール画像" class="w-full h-full object-cover">
+                            </div>
+                            
+                            <!-- テキスト -->
+                            <div class="text-center sm:text-left w-full sm:flex-1">
+                                <h2 class="text-xl sm:text-3xl font-black text-gray-900 mb-2 leading-tight">
+                                    FX歴15年・現役億トレーダー<br>
+                                    <span class="text-amber-500 text-base sm:text-xl font-bold tracking-widest mt-1 block">FOUNDER</span>
+                                </h2>
+                                
+                                <div class="flex flex-wrap justify-center sm:justify-start gap-2 my-4 sm:my-5">
+                                    <span class="bg-amber-50 text-amber-700 px-2 sm:px-3 py-1 sm:py-1.5 rounded text-xs sm:text-sm font-bold border border-amber-200">FX歴15年</span>
+                                    <span class="bg-amber-50 text-amber-700 px-2 sm:px-3 py-1 sm:py-1.5 rounded text-xs sm:text-sm font-bold border border-amber-200">直近5年間は億超え</span>
+                                    <span class="bg-amber-50 text-amber-700 px-2 sm:px-3 py-1 sm:py-1.5 rounded text-xs sm:text-sm font-bold border border-amber-200">指導実績600名以上</span>
+                                </div>
+
+                                <p class="text-gray-700 text-sm sm:text-lg leading-relaxed text-left">
+                                    相場の世界で15年生き残り、直近5年間は常に億単位の利益を叩き出し続けてきました。これまで延べ600人以上のトレーダーに裁量を教えてきた経験から、ある確信に辿り着きました。<br><br>
+                                    それは、<strong class="text-gray-900 border-b-2 border-amber-300 pb-0.5">「本物の知見と適切な環境さえあれば、誰でも自力で『1日1万円』を稼ぐスキルは身につく」</strong>ということです。<br>
+                                    私が培ってきた全てを注ぎ込み、本気で勝つための環境を構築しました。次はあなたの番です。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- フッター -->
+                    <footer class="bg-amber-50 py-6 text-center text-amber-900/60 text-xs sm:text-sm border-t border-amber-200 w-full mt-auto sm:mt-0">
+                        <p>&copy; 2026 ゴールデンボンバーEX All Rights Reserved.</p>
+                        <p class="mt-2 text-[10px] sm:text-xs">※投資は自己責任です。利益を保証するものではありません。</p>
+                    </footer>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- スマホ用 下部固定フローティングバナー -->
+        <div class="absolute bottom-0 left-0 w-full p-4 sm:hidden z-50 bg-gradient-to-t from-[#fff9eb] via-[#fff9eb]/90 to-transparent pb-6">
             <!-- ★★★ リンク差し替え：申し込みページやLINEのURLを href="#" の # に入れ替えてください ★★★ -->
-            <a href="https://lin.ee/iYcu3h5" class="inline-block w-full sm:w-auto bg-gold-gradient text-white font-black text-xl sm:text-2xl py-5 px-8 rounded-full shadow-[0_10px_30px_rgba(245,158,11,0.4)] hover:shadow-[0_15px_40px_rgba(245,158,11,0.6)] transform hover:-translate-y-1 transition-all duration-300">
-                一生モノの技術を身につけ、<br class="sm:hidden">1日1万円の扉を開く
-                <span class="block text-sm font-bold mt-2 opacity-90">今すぐゴールデンボンバーEXに参加する</span>
+            <a href="https://lin.ee/iYcu3h5" class="block w-full bg-gold-gradient text-white text-center py-3.5 px-2 rounded-full shadow-[0_8px_20px_rgba(245,158,11,0.5)] border border-amber-300 transform active:scale-95 transition-transform">
+                <span class="text-[13px] font-black tracking-tight leading-tight block drop-shadow-sm">一生モノの技術を身につけ、1日1万円の扉を開く</span>
+                <span class="text-[10px] font-bold mt-1 bg-white/25 py-0.5 px-2 rounded-full inline-block">今すぐ参加されたい方はこちらをクリック</span>
             </a>
         </div>
-    </section>
 
-    <!-- Discord環境の紹介 -->
-    <section class="py-12 bg-transparent border-b border-amber-200 relative z-10">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-2xl sm:text-3xl font-black text-gray-900 mb-6">
-                完全クローズドな<br class="sm:hidden"><span class="text-[#5865F2]">Discord</span>専用コミュニティ
-            </h2>
-            <p class="text-gray-700 text-lg mb-8">
-                『ゴールデンボンバーEX』は、全世界で利用されるチャットアプリ「Discord（ディスコード）」をベースに活動しています。<br class="hidden sm:block">
-                用途ごとに細かく整理された専用チャンネルで、ノイズのない洗練された学習・実践環境を提供します。
-            </p>
-            <div class="max-w-sm mx-auto bg-white p-2 rounded-xl border border-amber-200 shadow-md">
-                <!-- ★★★ 画像差し替え：Discordのチャンネル一覧画像 ★★★ -->
-                <!-- 下の src="ここの中身" をWordPressの画像URLに変更してください -->
-                <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.21.34.png" alt="Discordチャンネル一覧" class="w-full h-auto rounded-lg border border-amber-100">
-            </div>
-        </div>
-    </section>
-
-    <!-- グループでのトレードの流れ -->
-    <section class="py-16 bg-amber-100/40 border-y border-amber-200 relative z-10">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl font-black text-center mb-6 text-gray-900">
-                グループでの<br class="sm:hidden"><span class="text-amber-500">トレードの流れ</span>
-            </h2>
-            <div class="text-center text-gray-700 text-lg sm:text-xl mb-12 leading-relaxed font-bold">
-                <p>あれこれ悩む必要はありません。</p>
-                <p>私のチャート分析という「正解」に、<br class="hidden sm:block">グループで身につける手法やツールを合わせる。</p>
-                <p class="text-amber-600 mt-2">ただそれだけです。</p>
-            </div>
-
-            <div class="space-y-6">
-                <!-- Flow 1 -->
-                <div class="bg-white p-6 sm:p-8 rounded-xl border border-amber-200 shadow-sm relative overflow-hidden flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
-                    <div class="text-amber-400 font-black text-5xl opacity-80 shrink-0 leading-none">01</div>
-                    <div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 text-gray-900">
-                            「方向性」さえ合えば、どこからでも利益になる
-                        </h3>
-                        <p class="text-gray-700 leading-relaxed text-base sm:text-lg">
-                            極論、チャートの進む方向さえ間違っていなければ、どこから乗っても勝てます。<br>
-                            私が編み出した<strong class="text-gray-900 border-b-2 border-amber-400 pb-0.5 mx-1">『勝てる手法とツール』</strong>を共有するので、あなたは自信を持って乗るだけです。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Flow 2 -->
-                <div class="bg-white p-6 sm:p-8 rounded-xl border border-amber-200 shadow-sm relative overflow-hidden flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
-                    <div class="text-amber-400 font-black text-5xl opacity-80 shrink-0 leading-none">02</div>
-                    <div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 text-gray-900">
-                            「負け幅」を極力最小にし、利益を爆発させる
-                        </h3>
-                        <p class="text-gray-700 leading-relaxed text-base sm:text-lg">
-                            私の分析に基づき、期待値の高いポイントで徹底して細かくエントリーを積み重ねる技術が身につきます。<br>
-                            そうすることで、損小利大の安全トレードの技術も磨かれていきます。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Flow 3 -->
-                <div class="bg-white p-6 sm:p-8 rounded-xl border border-amber-200 shadow-sm relative overflow-hidden flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
-                    <div class="text-amber-400 font-black text-5xl opacity-80 shrink-0 leading-none">03</div>
-                    <div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 text-gray-900">
-                            ゴールドなら「小ロット」が「爆益」に変わる
-                        </h3>
-                        <p class="text-gray-700 leading-relaxed text-base sm:text-lg">
-                            無理なハイレバは不要。最小限のロットでも、相場の波を掴めば一晩で利益を突き抜けさせる事ができます。<br>
-                            そして慣れてきてロットがあげれるようになってきた頃に爆益を目指していけます。
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Flow 4 -->
-                <div class="bg-white p-6 sm:p-8 rounded-xl border border-amber-200 shadow-sm relative overflow-hidden flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
-                    <div class="text-amber-400 font-black text-5xl opacity-80 shrink-0 leading-none">04</div>
-                    <div>
-                        <h3 class="text-xl sm:text-2xl font-bold mb-3 text-gray-900">
-                            気がつけば「自分一人」で稼げるようになっている
-                        </h3>
-                        <p class="text-gray-700 leading-relaxed text-base sm:text-lg">
-                            最初は配信通りに打つだけで構いません。<br>
-                            しかし、徐々にグループを進めていく事で、確実に裁量技術が身につくようになっています。<br>
-                            <strong class="text-gray-900 border-b-2 border-amber-400 pb-0.5 mx-1">「気づいたら自分でもどんどん利益を取れていた」</strong><br>
-                            という自立までのスピード感が、このグループの最大の価値です。
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. グループの核（勝つための6ステップ） -->
-    <section class="py-16 bg-transparent border-b border-amber-200 relative z-10">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl font-black text-center mb-12 text-gray-900">
-                『ゴールデンボンバーEX』が提供する<br>
-                <span class="text-amber-500">勝つための6ステップ</span>
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Step 1 -->
-                <div class="bg-white p-6 rounded-xl border border-amber-200 shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
-                    <div class="text-amber-500 font-black text-xl mb-2">STEP 1</div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">【毎日更新】緻密なチャート分析</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">テクニカルで相場の「本質」を紐解く。</p>
-                    <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full mt-auto">
-                        <!-- ★★★ 画像差し替え：STEP1（分析部屋のスクショ） ★★★ -->
-                        <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.00.24.png" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="bg-white p-6 rounded-xl border border-amber-200 shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
-                    <div class="text-amber-500 font-black text-xl mb-2">STEP 2</div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">【毎日更新】ファンダメンタルズ分析</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">世界情勢や経済指標から相場の大きな流れを読み解く。</p>
-                    <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full mt-auto">
-                        <!-- ★★★ 画像差し替え：STEP2（ファンダメンタルズ分析のスクショ） ★★★ -->
-                        <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.22.28.png" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="bg-white p-6 rounded-xl border border-amber-200 shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
-                    <div class="text-amber-500 font-black text-xl mb-2">STEP 3</div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">【武器】勝てる手法と活かし方</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">根拠のあるポイントで、15年の知見を凝縮したロジックを叩き込む。</p>
-                    <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full mt-auto">
-                        <!-- ★★★ 画像差し替え：STEP3（手法・ツールのスクショ） ★★★ -->
-                        <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.23.51.png" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="bg-white p-6 rounded-xl border border-amber-200 shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
-                    <div class="text-amber-500 font-black text-xl mb-2">STEP 4</div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">【武器】裁量補助ツールの活用</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">専用ツールを活用し、視覚的に勝率の高いポイントを把握する。</p>
-                    <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full mt-auto">
-                        <!-- ★★★ 画像差し替え：STEP4（補助ツールのスクショ） ★★★ -->
-                        <img src="https://che-wada-fx.com/wp-content/uploads/2025/04/スクリーンショット-2025-05-16-12.36.32.png" alt="ツールスクショ" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
-                <!-- Step 5 -->
-                <div class="bg-white p-6 rounded-xl border border-amber-200 shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
-                    <div class="text-amber-500 font-black text-xl mb-2">STEP 5</div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">【知識】裁量で勝つための重要知識</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">実践で使える裁量のテクニックや知識を伝授。</p>
-                    <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full mt-auto">
-                        <!-- ★★★ 画像差し替え：STEP5（質疑応答・重要知識のスクショ） ★★★ -->
-                        <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.26.52.png" class="w-full h-full object-cover">
-                    </div>
-                </div>
-
-                <!-- Step 6 -->
-                <div class="bg-white p-6 rounded-xl border border-amber-200 shadow-md hover:shadow-lg transition-shadow flex flex-col h-full">
-                    <div class="text-amber-500 font-black text-xl mb-2">STEP 6</div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">【答え合わせ】裁量エントリー配信</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">私（おまけ）のリアルな入り方を公開。分析の答え合わせに活用。</p>
-                    <div class="bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100 overflow-hidden aspect-video w-full mt-auto">
-                        <!-- ★★★ 画像差し替え：STEP6（配信部屋のスクショ） ★★★ -->
-                        <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.29.26.png" class="w-full h-full object-cover">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 4. 圧倒的な証拠 -->
-    <section class="py-16 bg-amber-100/40">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-black mb-4 text-gray-900">
-                「今日、1万円を稼げました！」
-            </h2>
-            <p class="text-xl text-amber-600 mb-12 font-bold">仲間の成功が、あなたの基準値を引き上げる。</p>
-
-            <!-- 結果報告ギャラリー (スクロール可能) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                <div class="bg-white p-2 rounded-lg border border-amber-200 shadow-sm">
-                    <!-- ★★★ 画像差し替え：結果報告1 ★★★ -->
-                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.02.11.png" class="w-full h-auto rounded">
-                </div>
-                <div class="bg-white p-2 rounded-lg border border-amber-200 shadow-sm">
-                    <!-- ★★★ 画像差し替え：結果報告2 ★★★ -->
-                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.02.33.png" class="w-full h-auto rounded">
-                </div>
-                <div class="bg-white p-2 rounded-lg border border-amber-200 shadow-sm">
-                    <!-- ★★★ 画像差し替え：結果報告3 ★★★ -->
-                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.05.39.png" class="w-full h-auto rounded">
-                </div>
-                <div class="bg-white p-2 rounded-lg border border-amber-200 shadow-sm">
-                    <!-- ★★★ 画像差し替え：結果報告4 ★★★ -->
-                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.05.55.png" class="w-full h-auto rounded">
-                </div>
-                <div class="bg-white p-2 rounded-lg border border-amber-200 shadow-sm">
-                    <!-- ★★★ 画像差し替え：結果報告5 ★★★ -->
-                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-12.02.02.png" class="w-full h-auto rounded">
-                </div>
-                <div class="bg-white p-2 rounded-lg border border-amber-200 shadow-sm">
-                    <!-- ★★★ 画像差し替え：結果報告6 ★★★ -->
-                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/スクリーンショット-2026-02-25-13.35.32.png" class="w-full h-auto rounded">
-                </div>
-            </div>
-            
-            <p class="text-lg font-bold text-gray-900 bg-white inline-block px-6 py-3 rounded-full border border-amber-300 shadow-md">
-                「初心者でも自力で分析して勝てた」という声が続出しています。
-            </p>
-        </div>
-    </section>
-
-    <!-- 5. クロージング -->
-    <section class="py-20 bg-transparent relative border-t-4 border-gold text-center">
-        <div class="max-w-2xl mx-auto px-4 relative z-10">
-            <div class="mb-8">
-                <span class="text-gray-500 text-lg font-bold">参加費用</span>
-                <div class="text-4xl sm:text-6xl font-black text-gray-900 mt-2 mb-4">
-                    月額 <span class="text-amber-500">11,000</span><span class="text-2xl">円</span>
-                </div>
-                <p class="text-xl text-gray-600 font-bold">1日あたり わずか約360円</p>
-            </div>
-
-            <div class="text-left bg-white p-6 sm:p-8 rounded-xl border border-amber-200 mb-10 shadow-lg">
-                <ul class="space-y-4 text-gray-800 text-lg font-bold">
-                    <li class="flex items-start">
-                        <svg class="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        15年かけて築いた億の思考と最新分析
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        切磋琢磨し、結果を出し続ける仲間の環境
-                    </li>
-                    <li class="flex items-start">
-                        <svg class="w-6 h-6 text-amber-500 mr-3 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        入会金なし、縛りなしの明朗システム
-                    </li>
-                </ul>
-                <p class="mt-6 text-center text-gray-600 font-bold border-t border-amber-200 pt-6">
-                    あなたが身につける「裁量スキル」は、<br>相場がある限り一生お金を生み出す技術になります。
-                </p>
-            </div>
-
-            <!-- CTAボタン -->
-            <!-- ★★★ リンク差し替え：申し込みページやLINEのURLを href="#" の # に入れ替えてください ★★★ -->
-            <a href="https://lin.ee/iYcu3h5" class="inline-block w-full sm:w-auto bg-gold-gradient text-white font-black text-xl sm:text-2xl py-5 px-8 rounded-full shadow-[0_10px_30px_rgba(245,158,11,0.4)] hover:shadow-[0_15px_40px_rgba(245,158,11,0.6)] transform hover:-translate-y-1 transition-all duration-300">
-                一生モノの技術を身につけ、<br class="sm:hidden">1日1万円の扉を開く
-                <span class="block text-sm font-bold mt-2 opacity-90">今すぐゴールデンボンバーEXに参加する</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- プロフィール（講師紹介） -->
-    <section class="py-16 bg-amber-100/40 relative z-10 border-t border-amber-200">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row items-center gap-8 bg-white p-8 rounded-2xl border border-gold/30 shadow-[0_10px_30px_rgba(245,158,11,0.05)]">
-                <!-- 写真プレースホルダー -->
-                <div class="w-48 h-48 md:w-56 md:h-56 flex-shrink-0 rounded-full overflow-hidden border-4 border-gold shadow-[0_0_15px_rgba(251,191,36,0.2)] relative bg-amber-50">
-                    <!-- ★★★ 画像差し替え：プロフィール画像（正方形推奨） ★★★ -->
-                    <!-- 下の src="ここの中身" をWordPressの画像URLに変更してください -->
-                    <img src="https://che-wada-fx.com/wp-content/uploads/2026/02/YASUNARI候補1.jpg" alt="プロフィール画像" class="w-full h-full object-cover">
-                </div>
-                <!-- テキスト -->
-                <div class="text-center md:text-left flex-1">
-                    <h2 class="text-2xl sm:text-3xl font-black text-gray-900 mb-2 leading-tight">
-                        FX歴15年・現役億トレーダー<br>
-                        <span class="text-amber-500 text-lg sm:text-xl font-bold tracking-widest mt-1 block">FOUNDER</span>
-                    </h2>
-                    
-                    <div class="flex flex-wrap justify-center md:justify-start gap-2 my-5">
-                        <span class="bg-amber-50 text-amber-700 px-3 py-1.5 rounded-md text-sm font-bold border border-amber-200">FX歴15年</span>
-                        <span class="bg-amber-50 text-amber-700 px-3 py-1.5 rounded-md text-sm font-bold border border-amber-200">直近5年間は億超え</span>
-                        <span class="bg-amber-50 text-amber-700 px-3 py-1.5 rounded-md text-sm font-bold border border-amber-200">指導実績600名以上</span>
-                    </div>
-
-                    <p class="text-gray-700 leading-relaxed text-base sm:text-lg text-left">
-                        相場の世界で15年生き残り、直近5年間は常に億単位の利益を叩き出し続けてきました。これまで延べ600人以上のトレーダーに裁量を教えてきた経験から、ある確信に辿り着きました。<br><br>
-                        それは、<strong class="text-gray-900 border-b-2 border-amber-300 pb-0.5">「本物の知見と適切な環境さえあれば、誰でも自力で『1日1万円』を稼ぐスキルは身につく」</strong>ということです。<br>
-                        私が培ってきた全てを注ぎ込み、本気で勝つための環境を構築しました。次はあなたの番です。
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-amber-100 py-6 text-center text-amber-900/60 text-sm border-t border-amber-200">
-        <p>&copy; 2026 ゴールデンボンバーEX All Rights Reserved.</p>
-        <p class="mt-2 text-xs">※投資は自己責任です。利益を保証するものではありません。</p>
-    </footer>
+    </div>
 
 </body>
 </html>
