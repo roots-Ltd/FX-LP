@@ -14,6 +14,14 @@
         body {
             font-family: 'Noto Sans JP', sans-serif;
             color: #1e293b; /* Slate 800 - 文字色 */
+            /* ▼ コピー防止用のスタイル ▼ */
+            -webkit-touch-callout: none; /* iOS Safari: 長押しメニュー無効化 */
+            -webkit-user-select: none;   /* Safari: テキスト選択無効化 */
+            -khtml-user-select: none;    /* Konqueror HTML */
+            -moz-user-select: none;      /* Firefox */
+            -ms-user-select: none;       /* IE/Edge */
+            user-select: none;           /* 標準: テキスト選択無効化 */
+            /* ▲ コピー防止用のスタイル ▲ */
         }
         .text-gold { color: #f59e0b; }
         .bg-gold { background-color: #fbbf24; }
@@ -32,7 +40,7 @@
         .animate-bounce-x { animation: bounce-x 1.5s infinite; }
     </style>
 </head>
-<body class="antialiased relative bg-[#fff9eb]">
+<body class="antialiased relative bg-[#fff9eb] select-none"> <!-- Tailwindの select-none も追加 -->
 
     <!-- 全体の背景装飾（固定・共通） -->
     <div class="fixed inset-0 pointer-events-none z-0">
@@ -654,6 +662,35 @@
         </div>
 
     </div>
+
+    <!-- ▼ コピー防止・右クリック禁止のスクリプト ▼ -->
+    <script>
+        // 右クリックメニューを禁止
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+
+        // テキストのコピー（Ctrl+C / Cmd+C など）を禁止
+        document.addEventListener('copy', function(event) {
+            event.preventDefault();
+        });
+
+        // テキストの切り取り（Ctrl+X / Cmd+X など）を禁止
+        document.addEventListener('cut', function(event) {
+            event.preventDefault();
+        });
+
+        // 画像などのドラッグ＆ドロップ（保存対策）を禁止
+        document.addEventListener('dragstart', function(event) {
+            event.preventDefault();
+        });
+
+        // テキスト選択開始を禁止（念のため）
+        document.addEventListener('selectstart', function(event) {
+            event.preventDefault();
+        });
+    </script>
+    <!-- ▲ コピー防止・右クリック禁止のスクリプト ▲ -->
 
 </body>
 </html>
